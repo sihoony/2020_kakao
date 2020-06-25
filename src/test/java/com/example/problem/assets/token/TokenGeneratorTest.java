@@ -1,0 +1,26 @@
+package com.example.problem.assets.token;
+
+import org.junit.jupiter.api.*;
+
+import static org.assertj.core.api.BDDAssertions.then;
+
+class TokenGeneratorTest {
+
+	private static final int TARGET_STRING_LENGTH = 3;
+
+	private final TokenGenerator tokenGenerator = new TokenGenerator();
+
+	@RepeatedTest(3)
+	@DisplayName("Token 생성 반복 테스트")
+	void generator(){
+
+		//given
+		//when
+		final String token = tokenGenerator.randomToken();
+
+		then(token).isNotNull();
+		then(token).isNotBlank();
+		then(token.length()).isEqualTo(TARGET_STRING_LENGTH);
+	}
+
+}
