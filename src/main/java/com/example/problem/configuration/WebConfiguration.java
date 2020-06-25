@@ -10,7 +10,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupp
 import com.example.problem.configuration.resolver.HeaderArgumentResolver;
 
 @Configuration
-@EnableWebMvc
 public class WebConfiguration extends WebMvcConfigurationSupport {
 
 	@Override

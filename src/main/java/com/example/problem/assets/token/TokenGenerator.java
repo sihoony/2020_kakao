@@ -1,7 +1,10 @@
 package com.example.problem.assets.token;
 
+import org.springframework.stereotype.Component;
+
 import java.util.Random;
 
+@Component
 public class TokenGenerator {
 
 	private static final int START_POSITION = 65;

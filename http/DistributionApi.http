@@ -1,0 +1,10 @@
+POST http://localhost:8080/distribution
+Accept: application/json
+Content-Type: application/json
+X-ROOM-ID: x283
+X-USER-ID: 2993
+
+{
+  "amount": 1002,
+  "people": 4
+}
