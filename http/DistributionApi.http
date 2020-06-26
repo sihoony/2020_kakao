@@ -11,8 +11,8 @@ X-USER-ID: 2993
 
 
 ###
-PUT http://localhost:8080/distribution/ajh
+PUT http://localhost:8080/distribution/fOv
 Accept: application/json
 Content-Type: application/json
 X-ROOM-ID: x283
-X-USER-ID: 2322
+X-USER-ID: 2992
