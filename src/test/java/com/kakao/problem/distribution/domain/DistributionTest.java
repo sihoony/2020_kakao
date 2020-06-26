@@ -103,7 +103,7 @@ class DistributionTest {
   class expireTimeTest {
 
     private static final int RANGE = 10;
-    private static final int EXCESS_RANGE = 11;
+    private static final int EXCESS_RANGE = 12;
 
     @Test
     @DisplayName(" - 정상 확인")
@@ -118,6 +118,7 @@ class DistributionTest {
       final boolean isExpire = distribution.isExpireTime();
 
 
+      //then
       then(isExpire).isFalse();
     }
 

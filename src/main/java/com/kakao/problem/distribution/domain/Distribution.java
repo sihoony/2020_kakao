@@ -1,8 +1,10 @@
 package com.kakao.problem.distribution.domain;
 
 import com.kakao.problem.assets.entity.BaseTimeEntity;
+import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

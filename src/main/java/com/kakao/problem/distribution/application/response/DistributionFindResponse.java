@@ -36,7 +36,7 @@ public class DistributionFindResponse implements Serializable {
 	}
 
 	@Getter
-	static class Reciver implements Serializable{
+	public static class Reciver implements Serializable{
 
 		private static final long serialVersionUID = -4068947638169172827L;
 

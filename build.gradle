@@ -33,14 +33,10 @@ dependencies {
 
     annotationProcessor 'com.querydsl:querydsl-apt'
     annotationProcessor 'org.projectlombok:lombok'
-    annotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
 
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
-
-    testAnnotationProcessor "org.mapstruct:mapstruct-processor:${mapstructVersion}"
-
 }
 
 def querydslSrcDir = 'src/main/generated'

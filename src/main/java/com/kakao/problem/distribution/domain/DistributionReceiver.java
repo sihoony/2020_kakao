@@ -11,7 +11,6 @@ import javax.persistence.*;
 @Data
 @Entity
 @EqualsAndHashCode(callSuper = true)
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class DistributionReceiver extends BaseTimeEntity {
 
   @Id

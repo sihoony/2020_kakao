@@ -20,7 +20,9 @@ public enum ResultCode {
 
   NOT_FOUND_DISTRIBUTION(10005),
 
-  READ_RESTRICTION(10006);
+  READ_RESTRICTION(10006),
+
+  NOT_CREATOR(10007);
 
   private final int code;
 

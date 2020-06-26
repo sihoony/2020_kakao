@@ -103,7 +103,7 @@ public class DistributionService {
 		}
 
 		if(distribution.isNotCreator(userId)){
-			throw new AcquireDeniedException();
+			throw new NotCreatorException();
 		}
 
 		if(distribution.isReadRestriction()){
