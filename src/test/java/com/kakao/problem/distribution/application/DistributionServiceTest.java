@@ -36,7 +36,7 @@ import static org.mockito.BDDMockito.given;
 
 @ExtendWith(SpringExtension.class)
 @DisplayName("카카오페이 뿌리기 기능 비즈니스 로직 테스트.")
-class DistributionServiceTest extends BaseFixture{
+class DistributionServiceTest extends BaseApplicationFixture {
 
   @Mock
   private DistributionRepository distributionRepository;

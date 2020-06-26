@@ -9,7 +9,7 @@ import org.springframework.test.util.ReflectionTestUtils;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-public class BaseFixture {
+public class BaseApplicationFixture {
 
   private static final String X_ROOM_ID = "X-ROOM-ID";
   private static final String X_USER_ID = "X-USER-ID";

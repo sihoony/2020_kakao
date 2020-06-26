@@ -12,7 +12,7 @@ X-USER-ID: 2993
 
 
 ### 받기 API
-PUT http://localhost:8080/distribution/UkH
+PUT http://localhost:8080/distribution/sEx
 Accept: application/json
 Content-Type: application/json
 X-ROOM-ID: x283
@@ -20,7 +20,7 @@ X-USER-ID: 2244
 
 
 ### 조회 AP
-GET http://localhost:8080/distribution/UkH
+GET http://localhost:8080/distribution/sEx
 Accept: application/json
 Content-Type: application/json
 X-ROOM-ID: x283
