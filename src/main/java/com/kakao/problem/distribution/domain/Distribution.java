@@ -43,7 +43,7 @@ public class Distribution extends BaseTimeEntity {
 	private String roomId;
 
 	@JoinColumn(name = "distribution_id")
-	@OneToMany( fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany( fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private List<DistributionReceiver> receivers = new ArrayList<>();
 
 	public void distributionOperation(){
@@ -79,7 +79,6 @@ public class Distribution extends BaseTimeEntity {
 	}
 
 	public boolean isExpireTime(){
-
 		return this.getCreatedDate()
 						.plusMinutes(EXPTIRE_MINUS_MINUTE)
 						.isBefore(
@@ -88,7 +87,6 @@ public class Distribution extends BaseTimeEntity {
 	}
 
 	public boolean isReadRestriction(){
-
 		return this.getCreatedDate()
 						.plusDays(READ_LIMIT_DAYS)
 						.isBefore(
@@ -97,12 +95,14 @@ public class Distribution extends BaseTimeEntity {
 	}
 
 	public boolean isCreator(Long userId){
-
 		return this.userId.equals(userId);
 	}
 
-	public boolean isDuplicationAcquire(Long userId){
+	public boolean isNotCreator(Long userId){
+		return !this.isCreator(userId);
+	}
 
+	public boolean isDuplicationAcquire(Long userId){
 		return this.getReceivers()
 						.stream()
 						.filter(distributionReceiver -> Objects.nonNull(distributionReceiver.getUserId()))

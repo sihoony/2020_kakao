@@ -7,6 +7,8 @@ import java.io.Serializable;
 @Getter
 public class DistributionAcquireResponse implements Serializable {
 
+	private static final long serialVersionUID = -2640755653211360381L;
+
 	private final Long amount;
 
 	public DistributionAcquireResponse(Long amount) {

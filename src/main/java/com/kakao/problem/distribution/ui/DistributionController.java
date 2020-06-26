@@ -5,14 +5,12 @@ import com.kakao.problem.assets.entrypoints.RestApiResponse;
 import com.kakao.problem.distribution.application.DistributionService;
 import com.kakao.problem.distribution.application.request.DistributionAcquireRequest;
 import com.kakao.problem.distribution.application.request.DistributionCreateRequest;
+import com.kakao.problem.distribution.application.request.DistributionFindRequest;
 import com.kakao.problem.distribution.application.response.DistributionAcquireResponse;
 import com.kakao.problem.distribution.application.response.DistributionCreateResponse;
+import com.kakao.problem.distribution.application.response.DistributionFindResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -23,7 +21,7 @@ public class DistributionController {
 	private final DistributionService distributionService;
 
 	@PostMapping(value = "/distribution")
-	public RestApiResponse<DistributionCreateResponse> distributionSave(@RequestBody @Valid DistributionCreateRequest distributionCreateRequest,
+	public RestApiResponse<DistributionCreateResponse> distributionCreate(@RequestBody @Valid DistributionCreateRequest distributionCreateRequest,
 																																			RequestHeader requestHeader){
 
 		DistributionCreateResponse result = distributionService.distributionCreate(distributionCreateRequest, requestHeader);
@@ -31,10 +29,18 @@ public class DistributionController {
 	}
 
 	@PutMapping(value = "/distribution/{token}")
-	public RestApiResponse<DistributionAcquireResponse> distributionSave(@Valid DistributionAcquireRequest distributionAcquireRequest,
+	public RestApiResponse<DistributionAcquireResponse> distributionAcquire(@Valid DistributionAcquireRequest distributionAcquireRequest,
 																																			RequestHeader requestHeader){
 
 		DistributionAcquireResponse result = distributionService.distributionAcquire(distributionAcquireRequest, requestHeader);
+		return RestApiResponse.ok(result);
+	}
+
+	@GetMapping(value = "/distribution/{token}")
+	public RestApiResponse<DistributionFindResponse> distributionFind(@Valid DistributionFindRequest distributionFindRequest,
+																																		RequestHeader requestHeader){
+
+		DistributionFindResponse result = distributionService.distributionFind(distributionFindRequest, requestHeader);
 		return RestApiResponse.ok(result);
 	}
 

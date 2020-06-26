@@ -18,7 +18,9 @@ public enum ResultCode {
 
   EXPIRED_REQUEST(10004),
 
-  NOT_FOUND_DISTRIBUTION(10005);
+  NOT_FOUND_DISTRIBUTION(10005),
+
+  READ_RESTRICTION(10006);
 
   private final int code;
 

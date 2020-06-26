@@ -1,3 +1,4 @@
+### 뿌리기 API
 POST http://localhost:8080/distribution
 Accept: application/json
 Content-Type: application/json
@@ -10,9 +11,17 @@ X-USER-ID: 2993
 }
 
 
-###
-PUT http://localhost:8080/distribution/fOv
+### 받기 API
+PUT http://localhost:8080/distribution/jdx
 Accept: application/json
 Content-Type: application/json
 X-ROOM-ID: x283
-X-USER-ID: 2992
+X-USER-ID: 2244
+
+
+### 조회 AP
+GET http://localhost:8080/distribution/jdx
+Accept: application/json
+Content-Type: application/json
+X-ROOM-ID: x283
+X-USER-ID: 2993
