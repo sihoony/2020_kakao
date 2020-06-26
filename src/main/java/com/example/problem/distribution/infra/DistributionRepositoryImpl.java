@@ -2,22 +2,26 @@ package com.example.problem.distribution.infra;
 
 import com.example.problem.distribution.domain.Distribution;
 import com.example.problem.distribution.domain.DistributionRepository;
+import com.example.problem.distribution.infra.read.DistributionReadAccess;
 import com.example.problem.distribution.infra.write.DistributionWriteAccess;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import javax.transaction.Transactional;
-
-@Component
 @RequiredArgsConstructor
-public class DistributionRepositoryImpl implements DistributionRepository {
+public class DistributionRepositoryImpl {
 
   private final DistributionWriteAccess distributionWriteAccess;
 
-  @Override
-  @Transactional(Transactional.TxType.REQUIRED)
+  private final DistributionReadAccess distributionReadAccess;
+
+
   public Distribution save(Distribution distribution) {
 
     return distributionWriteAccess.save(distribution);
+  }
+
+  public Distribution findByTokenAndRoomId(String token, String roomId) {
+
+    return distributionReadAccess.findByTokenAndRoomId(token, roomId);
   }
 }

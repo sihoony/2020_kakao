@@ -1,7 +1,9 @@
 package com.example.problem.distribution.domain;
 
-public interface DistributionRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
 
-  Distribution save(Distribution distribution);
+public interface DistributionRepository extends JpaRepository<Distribution, Long> {
+
+  Distribution findByTokenAndRoomId(String token, String roomId);
 
 }

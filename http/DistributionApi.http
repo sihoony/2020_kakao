@@ -8,3 +8,11 @@ X-USER-ID: 2993
   "amount": 1002,
   "people": 4
 }
+
+
+###
+PUT http://localhost:8080/distribution/ajh
+Accept: application/json
+Content-Type: application/json
+X-ROOM-ID: x283
+X-USER-ID: 2322

@@ -4,8 +4,11 @@ import com.example.problem.assets.http.RequestHeader;
 import com.example.problem.distribution.application.DistributionService;
 import com.example.problem.distribution.application.request.DistributionAcquireRequest;
 import com.example.problem.distribution.application.request.DistributionCreateRequest;
+import com.example.problem.distribution.application.response.DistributionAcquireResponse;
 import com.example.problem.distribution.application.response.DistributionSaveResponse;
 import com.example.problem.distribution.domain.Distribution;
+import com.example.problem.distribution.domain.DistributionReceiver;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -30,11 +33,11 @@ public class DistributionController {
 	}
 
 	@PutMapping(value = "/distribution/{token}")
-	public ResponseEntity<DistributionSaveResponse> distributionSave(@RequestBody @Valid DistributionAcquireRequest distributionAcquireRequest,
-																																	 RequestHeader requestHeader){
+	public ResponseEntity<DistributionAcquireResponse> distributionSave(@Valid DistributionAcquireRequest distributionAcquireRequest,
+	                                                                    RequestHeader requestHeader){
 
-		Distribution result = distributionService.distributionCreate(distributionAcquireRequest, requestHeader);
-		return ResponseEntity.ok(new DistributionSaveResponse(result.getToken()));
+		DistributionReceiver result = distributionService.distributionAcquire(distributionAcquireRequest, requestHeader);
+		return ResponseEntity.ok(new DistributionAcquireResponse(result.getAmount()));
 	}
 
 }

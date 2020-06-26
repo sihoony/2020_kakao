@@ -8,13 +8,13 @@ import java.util.List;
 import javax.persistence.*;
 
 import com.example.problem.assets.entity.BaseTimeEntity;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
-import lombok.*;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
 @Entity
+@EqualsAndHashCode(callSuper = true)
 public class Distribution extends BaseTimeEntity {
 
 	private static final int EXPTIRE_MINUS_MINUTE = 10;
@@ -39,8 +39,8 @@ public class Distribution extends BaseTimeEntity {
 	@Column(nullable = false)
 	private String roomId;
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	@JoinColumn(name = "distribution_id")
+	@OneToMany( fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<DistributionReceiver> receivers = new ArrayList<>();
 
 	public void distributionOperation(){

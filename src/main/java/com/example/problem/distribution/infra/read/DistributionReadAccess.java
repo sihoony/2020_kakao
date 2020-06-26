@@ -1,4 +1,9 @@
 package com.example.problem.distribution.infra.read;
 
-public class DistributionReadAccess {
+import com.example.problem.distribution.domain.Distribution;
+
+public interface DistributionReadAccess {
+
+	Distribution findByTokenAndRoomId(String token, String roomId);
+
 }
