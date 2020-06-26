@@ -48,7 +48,7 @@ public class Distribution extends BaseTimeEntity {
 	private String roomId;
 
 	@JoinColumn(name = "distribution_id")
-	@OneToMany( fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany( fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<DistributionReceiver> receivers = new ArrayList<>();
 
 	public void distributionOperation(){
