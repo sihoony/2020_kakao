@@ -1,17 +1,21 @@
 package com.example.problem.distribution.application;
 
+import com.example.problem.assets.http.RequestHeader;
+import com.example.problem.assets.token.TokenGenerator;
 import com.example.problem.distribution.application.request.DistributionAcquireRequest;
+import com.example.problem.distribution.application.request.DistributionCreateRequest;
+import com.example.problem.distribution.application.response.DistributionAcquireResponse;
+import com.example.problem.distribution.application.response.DistributionCreateResponse;
+import com.example.problem.distribution.domain.Distribution;
+import com.example.problem.distribution.domain.DistributionReceiver;
+import com.example.problem.distribution.domain.DistributionRepository;
+import com.example.problem.distribution.domain.ReceiverStatus;
+import com.example.problem.distribution.exptions.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.problem.assets.http.RequestHeader;
-import com.example.problem.assets.token.TokenGenerator;
-import com.example.problem.distribution.application.request.DistributionCreateRequest;
-import com.example.problem.distribution.domain.*;
-import com.example.problem.distribution.exptions.DistributionCompleteException;
-import com.example.problem.distribution.exptions.ExpiredRequestException;
-
-import lombok.RequiredArgsConstructor;
+import java.util.Objects;
 
 @Service
 @RequiredArgsConstructor
@@ -22,7 +26,7 @@ public class DistributionService {
 	private final TokenGenerator tokenGenerator;
 
 	@Transactional
-	public Distribution distributionCreate(DistributionCreateRequest createRequest, RequestHeader requestHeader){
+	public DistributionCreateResponse distributionCreate(DistributionCreateRequest createRequest, RequestHeader requestHeader){
 
 		final Long amount = createRequest.getAmount();
 		final Long people = createRequest.getPeople();
@@ -30,7 +34,6 @@ public class DistributionService {
 		final String roomId = requestHeader.getXRoomId();
 
 		final String token = tokenGenerator.randomToken();
-
 
 		Distribution distribution = new Distribution();
 		distribution.setAmount(amount);
@@ -41,12 +44,12 @@ public class DistributionService {
 
 		distribution.distributionOperation();
 
-		return distributionRepository.save(distribution);
+		distributionRepository.save(distribution);
+		return new DistributionCreateResponse(token);
 	}
 
-
 	@Transactional
-	public DistributionReceiver distributionAcquire(DistributionAcquireRequest acquireRequest, RequestHeader requestHeader){
+	public DistributionAcquireResponse distributionAcquire(DistributionAcquireRequest acquireRequest, RequestHeader requestHeader){
 
 		final String token = acquireRequest.getToken();
 
@@ -54,8 +57,20 @@ public class DistributionService {
 		final String roomId = requestHeader.getXRoomId();
 
 		Distribution distribution = distributionRepository.findByTokenAndRoomId(token, roomId);
+		if(Objects.isNull(distribution)){
+			throw new NotFoundDistributionException();
+		}
+
 		if(distribution.isExpireTime()){
 			throw new ExpiredRequestException();
+		}
+
+		if(distribution.isCreator(userId)){
+			throw new AcquireDeniedException();
+		}
+
+		if(distribution.isDuplicationAcquire(userId)){
+			throw new DuplicationAcquireException();
 		}
 
 		DistributionReceiver distributionReceiver = distribution.getReceivers()
@@ -67,7 +82,6 @@ public class DistributionService {
 		distributionReceiver.setUserId(userId);
 		distributionReceiver.setStatus(ReceiverStatus.COMPLETE);
 
-		return distributionReceiver;
+		return new DistributionAcquireResponse(distributionReceiver.getAmount());
 	}
-
 }

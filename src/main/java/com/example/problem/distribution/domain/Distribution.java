@@ -2,6 +2,7 @@ package com.example.problem.distribution.domain;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.time.temporal.TemporalQuery;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +18,7 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class Distribution extends BaseTimeEntity {
 
-	private static final int EXPTIRE_MINUS_MINUTE = 10;
+	private static final int EXPTIRE_MINUS_MINUTE = 11;
 	private static final int READ_LIMIT_DAYS = 7;
 
 	@Id
@@ -51,18 +52,32 @@ public class Distribution extends BaseTimeEntity {
 	}
 
 	public boolean isExpireTime(){
+
 		return this.getCreatedDate()
 						.plusMinutes(EXPTIRE_MINUS_MINUTE)
-						.isAfter(
+						.isBefore(
 										LocalDateTime.now(ZoneId.systemDefault())
 						);
 	}
 
 	public boolean isReadRestriction(){
+
 		return this.getCreatedDate()
 						.plusDays(READ_LIMIT_DAYS)
-						.isAfter(
+						.isBefore(
 										LocalDateTime.now(ZoneId.systemDefault())
 						);
+	}
+
+	public boolean isCreator(Long userId){
+
+		return this.userId.equals(userId);
+	}
+
+	public boolean isDuplicationAcquire(Long userId){
+
+		return this.getReceivers()
+						.stream()
+						.anyMatch(distributionReceiver -> distributionReceiver.getUserId().equals(userId));
 	}
 }

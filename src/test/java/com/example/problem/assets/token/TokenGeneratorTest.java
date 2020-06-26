@@ -11,7 +11,7 @@ class TokenGeneratorTest {
 	private final TokenGenerator tokenGenerator = new TokenGenerator();
 
 	@RepeatedTest(3)
-	@DisplayName("Token 생성 반복 테스트")
+	@DisplayName("token은 3자리 문자열로 구성되며 예측이 불가능해야 합니다. - 생성 반복 테스트")
 	void generator(){
 
 		//given

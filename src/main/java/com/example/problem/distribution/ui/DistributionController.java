@@ -5,10 +5,7 @@ import com.example.problem.distribution.application.DistributionService;
 import com.example.problem.distribution.application.request.DistributionAcquireRequest;
 import com.example.problem.distribution.application.request.DistributionCreateRequest;
 import com.example.problem.distribution.application.response.DistributionAcquireResponse;
-import com.example.problem.distribution.application.response.DistributionSaveResponse;
-import com.example.problem.distribution.domain.Distribution;
-import com.example.problem.distribution.domain.DistributionReceiver;
-
+import com.example.problem.distribution.application.response.DistributionCreateResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,19 +22,19 @@ public class DistributionController {
 	private final DistributionService distributionService;
 
 	@PostMapping(value = "/distribution")
-	public ResponseEntity<DistributionSaveResponse> distributionSave(@RequestBody @Valid DistributionCreateRequest distributionCreateRequest,
-	                                                                 RequestHeader requestHeader){
+	public ResponseEntity<DistributionCreateResponse> distributionSave(@RequestBody @Valid DistributionCreateRequest distributionCreateRequest,
+																																		 RequestHeader requestHeader){
 
-		Distribution result = distributionService.distributionCreate(distributionCreateRequest, requestHeader);
-		return ResponseEntity.ok(new DistributionSaveResponse(result.getToken()));
+		DistributionCreateResponse result = distributionService.distributionCreate(distributionCreateRequest, requestHeader);
+		return ResponseEntity.ok(result);
 	}
 
 	@PutMapping(value = "/distribution/{token}")
 	public ResponseEntity<DistributionAcquireResponse> distributionSave(@Valid DistributionAcquireRequest distributionAcquireRequest,
 	                                                                    RequestHeader requestHeader){
 
-		DistributionReceiver result = distributionService.distributionAcquire(distributionAcquireRequest, requestHeader);
-		return ResponseEntity.ok(new DistributionAcquireResponse(result.getAmount()));
+		DistributionAcquireResponse result = distributionService.distributionAcquire(distributionAcquireRequest, requestHeader);
+		return ResponseEntity.ok(result);
 	}
 
 }
