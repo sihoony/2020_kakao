@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 @Configuration
 @EnableJpaAuditing
-@ComponentScan(value = "com.example.problem")
+@ComponentScan(value = "com.kakao.problem")
 public class RootConfiguration {
 
 }

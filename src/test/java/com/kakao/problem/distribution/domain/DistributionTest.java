@@ -12,6 +12,7 @@ import java.util.List;
 
 import static org.assertj.core.api.BDDAssertions.then;
 
+@DisplayName("Distribution 도메인 Test, ")
 class DistributionTest {
 
   private final LocalDateTime nowTime = LocalDateTime.now(ZoneId.systemDefault());
@@ -20,7 +21,7 @@ class DistributionTest {
 
 
   @Nested
-  @DisplayName("뿌릴 금액을 인원수에 맞게 분배하여 저장합니다..")
+  @DisplayName("뿌릴 금액을 인원수에 맞게 분배하여 저장합니다.")
   class distributionOperationTest {
 
     private static final long PEOPLE_COUNT = 4L;
