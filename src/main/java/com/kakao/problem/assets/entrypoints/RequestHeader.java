@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class RequestHeader {
 
@@ -12,8 +13,13 @@ public class RequestHeader {
 
 	private final String xRoomId;
 
-	public RequestHeader(Long xUserId, String xRoomId) {
-		this.xUserId = xUserId;
+	public RequestHeader(String xUserId, String xRoomId) {
+
+		if( Objects.isNull(xUserId) || Objects.isNull(xRoomId) ){
+			throw new NullPointerException();
+		}
+
+		this.xUserId = Long.valueOf(xUserId);
 		this.xRoomId = xRoomId;
 	}
 
@@ -43,7 +49,7 @@ public class RequestHeader {
 			HashMap<String, String> headerMap = this.getHeaderMap(request);
 
 			return new RequestHeader(
-				Long.valueOf(headerMap.get(ConstHeader.X_USER_ID.getKey())),
+				headerMap.get(ConstHeader.X_USER_ID.getKey()),
 				headerMap.get(ConstHeader.X_ROOM_ID.getKey())
 			);
 		}

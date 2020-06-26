@@ -1,7 +1,6 @@
 package com.kakao.problem.distribution.application.response;
 
 import com.kakao.problem.distribution.domain.DistributionReceiver;
-import lombok.Data;
 import lombok.Getter;
 
 import java.io.Serializable;
