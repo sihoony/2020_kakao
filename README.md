@@ -145,7 +145,7 @@ POST /distribution
 
 #### 받기 API
 ```http
-PUT /distribution/jdx
+PUT /distribution/{token}
 ```
 
 | Header Name | Description |
@@ -153,6 +153,9 @@ PUT /distribution/jdx
 | `X-ROOM-ID` | 대화방의 식별값 |
 | `X-USER-ID` | 사용자의 식별값 |
 
+| Path Variable | Description |
+| :--- | :--- |
+| `token` | 뿌리기시 공유된 token |
 
 ##### Response
 ```javascript
@@ -167,7 +170,7 @@ PUT /distribution/jdx
 
 #### 조회 API
 ```http
-GET /distribution/jdx
+GET /distribution/{token}
 ```
 
 | Header Name | Description |
@@ -175,6 +178,9 @@ GET /distribution/jdx
 | `X-ROOM-ID` | 대화방의 식별값 |
 | `X-USER-ID` | 사용자의 식별값 |
 
+| Path Variable | Description |
+| :--- | :--- |
+| `token` | 뿌리기시 공유된 token |
 
 ##### Response
 ```javascript
