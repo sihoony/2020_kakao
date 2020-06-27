@@ -12,15 +12,15 @@ X-USER-ID: 2993
 
 
 ### 받기 API
-PUT http://localhost:8080/distribution/CSQ
+PUT http://localhost:8080/distribution/ZnD
 Accept: application/json
 Content-Type: application/json
 X-ROOM-ID: x283
-X-USER-ID: 2244
+X-USER-ID: 2341
 
 
 ### 조회 AP
-GET http://localhost:8080/distribution/CSQ
+GET http://localhost:8080/distribution/ZnD
 Accept: application/json
 Content-Type: application/json
 X-ROOM-ID: x283

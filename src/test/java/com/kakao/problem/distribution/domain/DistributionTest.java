@@ -145,7 +145,7 @@ class DistributionTest {
     void expire_time_check() {
 
       //given
-      expireTime = nowTime.minusMinutes(EXCESS_RANGE);
+      expireTime = nowTime.minusMinutes(EXCESS_RANGE).minusSeconds(1);
 
       Distribution distribution = new Distribution();
       ReflectionTestUtils.setField(distribution, "createdDate", expireTime);

@@ -1,6 +1,9 @@
 package com.kakao.problem.distribution.domain;
 
 import com.kakao.problem.configuration.spring.RootConfiguration;
+import com.kakao.problem.distribution.infra.DistributionRepositoryImpl;
+import com.kakao.problem.distribution.infra.read.DistributionReadAccessImpl;
+import com.kakao.problem.distribution.infra.write.DistributionWriteAccess;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,7 +21,10 @@ import static org.assertj.core.api.BDDAssertions.then;
   @ComponentScan.Filter(
           type = FilterType.ASSIGNABLE_TYPE,
           classes = {
-                  RootConfiguration.class
+                  RootConfiguration.class,
+                  DistributionWriteAccess.class,
+                  DistributionRepositoryImpl.class,
+                  DistributionReadAccessImpl.class
           }
         )
 )
