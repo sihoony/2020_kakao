@@ -12,10 +12,7 @@ import com.kakao.problem.distribution.domain.DistributionReceiver;
 import com.kakao.problem.distribution.domain.DistributionRepository;
 import com.kakao.problem.distribution.domain.ReceiverStatus;
 import com.kakao.problem.distribution.exptions.*;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Nested;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -194,8 +191,8 @@ class DistributionServiceTest extends BaseApplicationFixture {
     void expire_time_test(){
 
       //given
-      final int excessRange = 11;
-      ReflectionTestUtils.setField(distribution, "createdDate", nowTime.minusMinutes(excessRange));
+      final int excessRange = 10;
+      ReflectionTestUtils.setField(distribution, "createdDate", nowTime.minusMinutes(excessRange).minusSeconds(1));
 
       given(distributionRepository.findByTokenAndRoomId(isA(String.class), isA(String.class)))
               .willReturn(distribution);
@@ -205,7 +202,7 @@ class DistributionServiceTest extends BaseApplicationFixture {
       thenThrownBy( () ->
 
               distributionService.distributionAcquire(acquireRequest, requestHeader)
-      ).isExactlyInstanceOf(ExpiredRequestException.class);
+      ).isInstanceOf(ExpiredRequestException.class);
     }
   }
 

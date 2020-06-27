@@ -1,10 +1,8 @@
 package com.kakao.problem.distribution.domain;
 
 import com.kakao.problem.assets.entity.BaseTimeEntity;
-import lombok.AccessLevel;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -22,7 +20,7 @@ import java.util.stream.Stream;
 @EqualsAndHashCode(callSuper = true)
 public class Distribution extends BaseTimeEntity {
 
-	private static final int EXPTIRE_MINUS_MINUTE = 11;
+	private static final int EXPTIRE_MINUS_MINUTE = 10;
 	private static final int READ_LIMIT_DAYS = 7;
 	private static final int DISTRIBUTION_MINIMUM = 1;
 
@@ -84,6 +82,11 @@ public class Distribution extends BaseTimeEntity {
 	}
 
 	public boolean isExpireTime(){
+		System.out.println(this.getCreatedDate());
+		System.out.println(this.getCreatedDate()
+						.plusMinutes(EXPTIRE_MINUS_MINUTE));
+		System.out.println(LocalDateTime.now(ZoneId.systemDefault()));
+
 		return this.getCreatedDate()
 						.plusMinutes(EXPTIRE_MINUS_MINUTE)
 						.isBefore(

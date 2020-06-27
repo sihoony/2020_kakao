@@ -40,7 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
-@DisplayName("Entrypoints API")
+@DisplayName("Entrypoints Test,")
 class DistributionControllerTest {
 
   private static final String X_ROOM_ID = "X-ROOM-ID";

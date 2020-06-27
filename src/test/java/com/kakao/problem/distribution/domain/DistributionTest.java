@@ -19,7 +19,6 @@ class DistributionTest {
 
   private LocalDateTime expireTime;
 
-
   @Nested
   @DisplayName("뿌릴 금액을 인원수에 맞게 분배하여 저장합니다.")
   class distributionOperationTest {
@@ -102,8 +101,8 @@ class DistributionTest {
   @DisplayName("뿌린 건은 10분간만 유효합니다.")
   class expireTimeTest {
 
-    private static final int RANGE = 10;
-    private static final int EXCESS_RANGE = 12;
+    private static final int RANGE = 9;
+    private static final int EXCESS_RANGE = 10;
 
     @Test
     @DisplayName(" - 정상 확인")
