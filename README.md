@@ -14,6 +14,12 @@
 - JPA
 - QueryDSL 4.3.1
 
+### Intellij Test 결과
+
+|Package |Class, % |Method, % |Line, % |
+|---|:---:|---:|---:|
+|all |classes	100% (34/ 34) |97.4% (111/ 114) |98.7% (301/ 305) |
+
 ## 요구사항
 * 뿌리기, 받기, 조회 기능을 수행하는 REST API 를 구현
     * 요청한 사용자의 식별값은 숫자 형태이며 "X-USER-ID" 라는 HTTP Header로 전달됩니다.
@@ -58,6 +64,11 @@
     - 분배 시점의 생성시간을 이용하여 현재시간과 비교
 
 
+## 패키지 요약
+- Domain의 고유 로직은 안쪽으로 숨기며 비즈니스 로직은 Application Service에서 진행하였습니다.
+- Exception에 대한 핸들링은 유지보수를 위하여 Application Service Layer에서 처리합니다.
+- infra 패키지를 통해 read 행위와 write 행위를 분리하였습니다.
+
 ## 패키지 구조 및 Http Request
 ```
 ├── README.md
@@ -85,6 +96,8 @@
     │   │                   ├── domain
     │   │                   ├── exptions
     │   │                   ├── infra
+    │   │                   │   ├── read
+    │   │                   │   └── write
     │   │                   └── ui
     │   └── resources
     └── test
