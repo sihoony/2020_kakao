@@ -41,19 +41,6 @@ public class ExceptionAdvisor {
     return RestApiResponse.error(builder.toString(), ResultCode.BAD_REQUEST);
   }
 
-  @Order(100)
-  @ExceptionHandler(BindException.class)
-  @ResponseStatus(code = HttpStatus.NOT_FOUND)
-  public RestApiResponse<String> bindException(BindException exception) {
-
-    String result = exception.getFieldErrors()
-            .stream()
-            .map(fieldError -> String.join(" : ", fieldError.getField(), fieldError.getDefaultMessage()))
-            .collect(Collectors.joining(", "));
-
-    return  RestApiResponse.error(result, ResultCode.INVALID_PARAMETERS);
-  }
-
   @Order(200)
   @ExceptionHandler(value = {
           BaseException.class

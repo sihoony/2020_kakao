@@ -28,8 +28,8 @@ dependencies {
     implementation "org.mapstruct:mapstruct:${mapstructVersion}"
 
 
-//    runtimeOnly 'com.h2database:h2'
-    runtimeOnly 'mysql:mysql-connector-java'
+    runtimeOnly 'com.h2database:h2'
+//    runtimeOnly 'mysql:mysql-connector-java'
 
     annotationProcessor 'com.querydsl:querydsl-apt'
     annotationProcessor 'org.projectlombok:lombok'

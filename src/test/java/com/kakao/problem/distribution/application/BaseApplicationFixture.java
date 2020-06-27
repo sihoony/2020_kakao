@@ -3,6 +3,7 @@ package com.kakao.problem.distribution.application;
 import com.kakao.problem.assets.entrypoints.RequestHeader;
 import com.kakao.problem.distribution.domain.Distribution;
 import org.junit.jupiter.api.BeforeEach;
+import org.mockito.MockitoAnnotations;
 import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.test.util.ReflectionTestUtils;
 

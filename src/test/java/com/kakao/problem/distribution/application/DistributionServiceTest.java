@@ -48,8 +48,8 @@ class DistributionServiceTest extends BaseApplicationFixture {
   private DistributionService distributionService;
 
   @Nested
-  @DisplayName(" 뿌리기 API ")
-  class Create {
+  @DisplayName(" 뿌리기 Service ")
+  class CreateService {
 
     @Test
     @DisplayName(" - 정상")
@@ -77,8 +77,8 @@ class DistributionServiceTest extends BaseApplicationFixture {
   }
 
   @Nested
-  @DisplayName(" 받기 API ")
-  class Acquire {
+  @DisplayName(" 받기 Service ")
+  class AcquireService {
 
     private final List<DistributionReceiver> distributionReceivers = new ArrayList<>();
     private final List<Long> FIXTURE_RECEIVER_AMOUNT = Arrays.asList(121L, 552L);
@@ -210,8 +210,8 @@ class DistributionServiceTest extends BaseApplicationFixture {
   }
 
   @Nested
-  @DisplayName(" 조회 API ")
-  class Find {
+  @DisplayName(" 조회 Service ")
+  class FindService {
 
     private final List<DistributionReceiver> distributionReceivers = new ArrayList<>();
     private final List<Long> FIXTURE_RECEIVER_AMOUNT = Arrays.asList(121L, 552L, 10L);
