@@ -91,7 +91,7 @@
 ```
 
 ## Domain 구조
-![IntelliJ Setting](Distribution.uml)
+![domain](attach/domain.png)
 
 ## API Spec
 
