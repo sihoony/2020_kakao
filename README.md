@@ -10,7 +10,8 @@
 - Java 1.8.x
 - Lombok plugin
 - Gradle 6.4.1
-- Mysql 5.6
+- H2
+- JPA
 - QueryDSL 4.3.1
 
 ## 요구사항
