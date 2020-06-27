@@ -11,6 +11,7 @@
 - Lombok plugin
 - Gradle 6.4.1
 - Mysql 5.6
+- QueryDSL 4.3.1
 
 ## 요구사항
 * 뿌리기, 받기, 조회 기능을 수행하는 REST API 를 구현
@@ -88,6 +89,9 @@
     └── test
 
 ```
+
+## Domain 구조
+![IntelliJ Setting](Distribution.uml)
 
 ## API Spec
 
