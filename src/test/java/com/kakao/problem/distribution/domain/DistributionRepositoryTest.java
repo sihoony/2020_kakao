@@ -18,18 +18,20 @@ import java.util.stream.Collectors;
 import static org.assertj.core.api.BDDAssertions.then;
 
 @DataJpaTest(includeFilters =
-  @ComponentScan.Filter(
-          type = FilterType.ASSIGNABLE_TYPE,
-          classes = {
-                  RootConfiguration.class,
-                  DistributionWriteAccess.class,
-                  DistributionRepositoryImpl.class,
-                  DistributionReadAccessImpl.class
-          }
-        )
+@ComponentScan.Filter(
+    type = FilterType.ASSIGNABLE_TYPE,
+    classes = {
+        RootConfiguration.class,
+        DistributionWriteAccess.class,
+        DistributionRepositoryImpl.class,
+        DistributionReadAccessImpl.class,
+        DomainService.class
+    }
+  )
 )
 @DisplayName("Distribution Repository Test,")
 class DistributionRepositoryTest {
+
 
   private final String ROOM_ID = "20200626";
   private final String FIXTURE_ROOM_ID = "20203626";
@@ -43,6 +45,8 @@ class DistributionRepositoryTest {
   @Autowired
   private DistributionRepository distributionRepository;
 
+  @Autowired
+  private DomainService domainService;
 
   @BeforeEach
   public void setup() {
@@ -176,7 +180,7 @@ class DistributionRepositoryTest {
     distribution.setAmount(AMOUNT);
     distribution.setPeople(PEOPLE);
 
-    distribution.distributionOperation();
+    domainService.randomPrices(distribution);
 
     return distribution;
   }

@@ -38,6 +38,7 @@ public class BaseApplicationFixture {
     distribution.setPeople(PEOPLE);
     distribution.setRoomId(ROOM_ID);
     distribution.setUserId(USER_ID);
+    distribution.setToken(TOKEN);
 
     MockHttpServletRequest mockRequest = new MockHttpServletRequest();
     mockRequest.addHeader(X_ROOM_ID, ROOM_ID);

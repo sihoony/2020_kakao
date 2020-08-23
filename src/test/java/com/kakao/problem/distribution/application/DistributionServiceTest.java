@@ -1,5 +1,6 @@
 package com.kakao.problem.distribution.application;
 
+import com.kakao.problem.assets.entrypoints.RequestHeader;
 import com.kakao.problem.assets.token.TokenGenerator;
 import com.kakao.problem.distribution.application.request.DistributionAcquireRequest;
 import com.kakao.problem.distribution.application.request.DistributionCreateRequest;
@@ -7,15 +8,22 @@ import com.kakao.problem.distribution.application.request.DistributionFindReques
 import com.kakao.problem.distribution.application.response.DistributionAcquireResponse;
 import com.kakao.problem.distribution.application.response.DistributionCreateResponse;
 import com.kakao.problem.distribution.application.response.DistributionFindResponse;
+import com.kakao.problem.distribution.application.support.DistributionConvert;
+import com.kakao.problem.distribution.application.support.DistributionValidator;
 import com.kakao.problem.distribution.domain.Distribution;
 import com.kakao.problem.distribution.domain.DistributionReceiver;
 import com.kakao.problem.distribution.domain.DistributionRepository;
+import com.kakao.problem.distribution.domain.DomainService;
 import com.kakao.problem.distribution.domain.ReceiverStatus;
 import com.kakao.problem.distribution.exptions.*;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Answers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.internal.stubbing.answers.CallsRealMethods;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 
@@ -28,7 +36,12 @@ import static org.assertj.core.api.BDDAssertions.then;
 import static org.assertj.core.api.BDDAssertions.thenThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.isA;
+import static org.mockito.ArgumentMatchers.isNull;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.willThrow;
+import static org.mockito.Mockito.doAnswer;
+import static org.mockito.Mockito.doCallRealMethod;
+import static org.mockito.Mockito.doThrow;
 
 
 @ExtendWith(SpringExtension.class)
@@ -40,6 +53,15 @@ class DistributionServiceTest extends BaseApplicationFixture {
 
   @Mock
   private TokenGenerator tokenGenerator;
+
+  @Mock
+  private DomainService domainService;
+
+  @Mock
+  private DistributionValidator validator;
+
+  @Mock
+  private DistributionConvert distributionConvert;
 
   @InjectMocks
   private DistributionService distributionService;
@@ -57,7 +79,10 @@ class DistributionServiceTest extends BaseApplicationFixture {
       createRequest.setAmount(AMOUNT);
       createRequest.setPeople(PEOPLE);
 
-      given(tokenGenerator.randomToken()).willReturn(TOKEN);
+      given(distributionConvert.to(isA(DistributionCreateRequest.class), isA(String.class), isA(RequestHeader.class)))
+          .willReturn(distribution);
+      given(tokenGenerator.randomToken())
+          .willReturn(TOKEN);
       given(distributionRepository.save(any(Distribution.class)))
               .willReturn(new Distribution());
 
@@ -126,6 +151,9 @@ class DistributionServiceTest extends BaseApplicationFixture {
       //given
       given(distributionRepository.findByTokenAndRoomId(isA(String.class), isA(String.class)))
               .willReturn(null);
+      doAnswer(new CallsRealMethods()).when(validator)
+          .createValid(isNull(), any(Long.class));
+
 
       //when
       //then
@@ -143,6 +171,8 @@ class DistributionServiceTest extends BaseApplicationFixture {
       ReflectionTestUtils.setField(requestHeader, "xUserId", USER_ID);
       given(distributionRepository.findByTokenAndRoomId(isA(String.class), isA(String.class)))
               .willReturn(distribution);
+      doAnswer(new CallsRealMethods()).when(validator)
+          .createValid(any(Distribution.class), any(Long.class));
 
       //when
       //then
@@ -160,6 +190,9 @@ class DistributionServiceTest extends BaseApplicationFixture {
       distributionReceivers.get(0).setUserId(ACQUIRE_FIXTURE_USER_ID);
       given(distributionRepository.findByTokenAndRoomId(isA(String.class), isA(String.class)))
               .willReturn(distribution);
+      doAnswer(new CallsRealMethods()).when(validator)
+          .createValid(any(Distribution.class), any(Long.class));
+
 
       //when
       //then
@@ -196,6 +229,9 @@ class DistributionServiceTest extends BaseApplicationFixture {
 
       given(distributionRepository.findByTokenAndRoomId(isA(String.class), isA(String.class)))
               .willReturn(distribution);
+      doAnswer(new CallsRealMethods()).when(validator)
+          .createValid(any(Distribution.class), any(Long.class));
+
 
       //when
       //then
@@ -287,6 +323,8 @@ class DistributionServiceTest extends BaseApplicationFixture {
       //given
       given(distributionRepository.findByTokenAndRoomId(isA(String.class), isA(String.class)))
               .willReturn(null);
+      doAnswer(new CallsRealMethods()).when(validator)
+          .findValid(isNull(), any(Long.class));
 
       //when
       //then
@@ -304,6 +342,8 @@ class DistributionServiceTest extends BaseApplicationFixture {
       distribution.setUserId(FIND_FIXTURE_USER_ID);
       given(distributionRepository.findByTokenAndRoomId(isA(String.class), isA(String.class)))
               .willReturn(distribution);
+      doAnswer(new CallsRealMethods()).when(validator)
+          .findValid(any(Distribution.class), any(Long.class));
 
       //when
       //then
@@ -322,6 +362,9 @@ class DistributionServiceTest extends BaseApplicationFixture {
       ReflectionTestUtils.setField(distribution, "createdDate", nowTime.minusDays(excessRange));
       given(distributionRepository.findByTokenAndRoomId(isA(String.class), isA(String.class)))
               .willReturn(distribution);
+      doAnswer(new CallsRealMethods()).when(validator)
+          .findValid(any(Distribution.class), any(Long.class));
+
 
       //when
       //then

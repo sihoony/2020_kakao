@@ -15,6 +15,7 @@ import static org.assertj.core.api.BDDAssertions.then;
 @DisplayName("Distribution 도메인 Test, ")
 class DistributionTest {
 
+  private final DomainService domainService = new DomainService();
   private final LocalDateTime nowTime = LocalDateTime.now(ZoneId.systemDefault());
 
   private LocalDateTime expireTime;
@@ -38,7 +39,7 @@ class DistributionTest {
 
 
       //when
-      distribution.distributionOperation();
+      domainService.randomPrices(distribution);
 
 
       //then
@@ -74,7 +75,7 @@ class DistributionTest {
 
 
       //when
-      distribution.distributionOperation();
+      domainService.randomPrices(distribution);
 
 
       //then
