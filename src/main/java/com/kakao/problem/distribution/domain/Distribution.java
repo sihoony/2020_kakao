@@ -1,6 +1,7 @@
 package com.kakao.problem.distribution.domain;
 
 import com.kakao.problem.assets.entity.BaseTimeEntity;
+import com.kakao.problem.distribution.exptions.DistributionCompleteException;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -45,6 +46,19 @@ public class Distribution extends BaseTimeEntity {
 	@JoinColumn(name = "distribution_id")
 	@OneToMany( fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<DistributionReceiver> receivers = new ArrayList<>();
+
+	public DistributionReceiver getWaitStatusOfDistributionReceiver(){
+		return receivers.stream()
+				.filter(DistributionReceiver::isWait)
+				.findFirst()
+				.orElseThrow(DistributionCompleteException::new);
+	}
+
+	public List<DistributionReceiver> getCompleteOfDistributionReceiverList(){
+		return receivers.stream()
+				.filter(DistributionReceiver::isComplete)
+				.collect(Collectors.toList());
+	}
 
 	public boolean isExpireTime(){
 		return this.getCreatedDate()

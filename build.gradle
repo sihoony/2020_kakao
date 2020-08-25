@@ -23,6 +23,9 @@ dependencies {
     implementation 'com.querydsl:querydsl-apt'
     implementation 'org.projectlombok:lombok'
 
+    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+    implementation 'it.ozimov:embedded-redis:0.7.3'
+
     runtimeOnly 'com.h2database:h2'
 
     annotationProcessor 'com.querydsl:querydsl-apt'
@@ -54,6 +57,7 @@ compileQuerydsl{
 }
 
 configurations {
+    compile.exclude group: "org.slf4j", module: "slf4j-simple"
     querydsl.extendsFrom compileClasspath
 }
 

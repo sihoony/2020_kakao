@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class DistributionValidator {
 
-  public void createValid( final Distribution distribution, final Long userId ){
+  public void preemptiveValid( final Distribution distribution, final Long userId ){
 
     if(Objects.isNull(distribution)){
       throw new NotFoundDistributionException();

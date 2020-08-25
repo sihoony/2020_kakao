@@ -14,15 +14,9 @@ import com.kakao.problem.distribution.domain.Distribution;
 import com.kakao.problem.distribution.domain.DistributionReceiver;
 import com.kakao.problem.distribution.domain.DistributionRepository;
 import com.kakao.problem.distribution.domain.DomainService;
-import com.kakao.problem.distribution.domain.ReceiverStatus;
-import com.kakao.problem.distribution.exptions.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
-import java.util.Objects;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -53,16 +47,10 @@ public class DistributionService {
 		final Long userId = requestHeader.getXUserId();
 
 		Distribution distribution = distributionRepository.findByTokenAndRoomId(acquireRequest.getToken(), requestHeader.getXRoomId());
-		validator.createValid(distribution, userId);
+		validator.preemptiveValid(distribution, userId);
 
-		DistributionReceiver distributionReceiver = distribution.getReceivers()
-			.stream()
-			.filter(DistributionReceiver::isWait)
-			.findFirst()
-			.orElseThrow(DistributionCompleteException::new);
-
-		distributionReceiver.setUserId(userId);
-		distributionReceiver.setStatus(ReceiverStatus.COMPLETE);
+		DistributionReceiver distributionReceiver = distribution.getWaitStatusOfDistributionReceiver();
+		distributionReceiver.userPreemptive(userId);
 
 		return new DistributionAcquireResponse(distributionReceiver.getAmount());
 	}
@@ -74,10 +62,7 @@ public class DistributionService {
 		validator.findValid(distribution, requestHeader.getXUserId());
 
 		return new DistributionFindResponse(
-				distribution.getReceivers()
-						.stream()
-						.filter(DistributionReceiver::isComplete)
-						.collect(Collectors.toList()),
+				distribution.getCompleteOfDistributionReceiverList(),
 				distribution.getAmount(),
 				distribution.getCreatedDate()
 		);
