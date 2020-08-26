@@ -108,7 +108,7 @@
 ```
 
 ## Domain 구조
-![domain](attach/domain.png)
+![domain](attach/new_domain.png)
 
 ## API Spec
 
