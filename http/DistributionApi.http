@@ -3,25 +3,25 @@ POST http://localhost:8080/distribution
 Accept: application/json
 Content-Type: application/json
 X-ROOM-ID: x281
-X-USER-ID: 2993
+X-USER-ID: 2992
 
 {
   "amount": 1002,
-  "people": 2
+  "people": 4
 }
 
 
 ### 받기 API
-PUT http://localhost:8080/distribution/AMH
+PUT http://localhost:8080/distribution/WMD
 Accept: application/json
 Content-Type: application/json
 X-ROOM-ID: x281
-X-USER-ID: 2341
+X-USER-ID: 2992
 
 
 ### 조회 AP
-GET http://localhost:8080/distribution/ZnD
+GET http://localhost:8080/distribution/fKB
 Accept: application/json
 Content-Type: application/json
-X-ROOM-ID: x283
-X-USER-ID: 2993
+X-ROOM-ID: x281
+X-USER-ID: 2992
