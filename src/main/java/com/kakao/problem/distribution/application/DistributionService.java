@@ -45,18 +45,19 @@ public class DistributionService {
 	public DistributionAcquireResponse distributionAcquire( final DistributionAcquireRequest acquireRequest, final RequestHeader requestHeader){
 
 		final Long userId = requestHeader.getXUserId();
+		final Long receiverId = distributionRepository.preemptiveReceiverId(requestHeader.getXRoomId(), acquireRequest.getToken());
 
 		Distribution distribution = distributionRepository.findByTokenAndRoomId(acquireRequest.getToken(), requestHeader.getXRoomId());
 		validator.preemptiveValid(distribution, userId);
 
-		DistributionReceiver distributionReceiver = distribution.getWaitStatusOfDistributionReceiver();
+		DistributionReceiver distributionReceiver = distribution.getReceiver(receiverId);
 		distributionReceiver.userPreemptive(userId);
 
 		return new DistributionAcquireResponse(distributionReceiver.getAmount());
 	}
 
 	@Transactional(readOnly = true)
-	public DistributionFindResponse distributionFind(final DistributionFindRequest findRequest, final RequestHeader requestHeader){
+	public DistributionFindResponse findDistributionHistory(final DistributionFindRequest findRequest, final RequestHeader requestHeader){
 
 		Distribution distribution = distributionRepository.findByTokenAndRoomId(findRequest.getToken(), requestHeader.getXRoomId());
 		validator.findValid(distribution, requestHeader.getXUserId());

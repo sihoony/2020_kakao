@@ -47,9 +47,9 @@ public class Distribution extends BaseTimeEntity {
 	@OneToMany( fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<DistributionReceiver> receivers = new ArrayList<>();
 
-	public DistributionReceiver getWaitStatusOfDistributionReceiver(){
+	public DistributionReceiver getReceiver(final Long receiverId){
 		return receivers.stream()
-				.filter(DistributionReceiver::isWait)
+				.filter(receiver -> receiver.getReceiverId().equals(receiverId))
 				.findFirst()
 				.orElseThrow(DistributionCompleteException::new);
 	}
@@ -57,6 +57,12 @@ public class Distribution extends BaseTimeEntity {
 	public List<DistributionReceiver> getCompleteOfDistributionReceiverList(){
 		return receivers.stream()
 				.filter(DistributionReceiver::isComplete)
+				.collect(Collectors.toList());
+	}
+
+	public List<Long> getReceiverIds(){
+		return receivers.stream()
+				.map(DistributionReceiver::getReceiverId)
 				.collect(Collectors.toList());
 	}
 

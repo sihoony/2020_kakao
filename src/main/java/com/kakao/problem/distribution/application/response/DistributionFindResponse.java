@@ -19,7 +19,7 @@ public class DistributionFindResponse implements Serializable {
 
 	private final LocalDateTime createdDate;
 
-	private final List<Reciver> recivers;
+	private final List<Receiver> receivers;
 
 	public DistributionFindResponse(final List<DistributionReceiver> distributionReceivers, final Long totalAmount, final LocalDateTime createdDate) {
 
@@ -29,14 +29,14 @@ public class DistributionFindResponse implements Serializable {
 						.mapToLong(DistributionReceiver::getAmount)
 						.sum();
 
-		this.recivers = distributionReceivers
+		this.receivers = distributionReceivers
 						.stream()
-						.map(distributionReceiver -> new Reciver(distributionReceiver.getUserId(), distributionReceiver.getAmount()))
+						.map(distributionReceiver -> new Receiver(distributionReceiver.getUserId(), distributionReceiver.getAmount()))
 						.collect(Collectors.toList());
 	}
 
 	@Getter
-	public static class Reciver implements Serializable{
+	public static class Receiver implements Serializable{
 
 		private static final long serialVersionUID = -4068947638169172827L;
 
@@ -44,7 +44,7 @@ public class DistributionFindResponse implements Serializable {
 
 		private final Long amount;
 
-		public Reciver(Long userId, Long amount) {
+		public Receiver(Long userId, Long amount) {
 			this.userId = userId;
 			this.amount = amount;
 		}

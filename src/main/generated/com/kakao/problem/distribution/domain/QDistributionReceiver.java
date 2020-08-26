@@ -26,10 +26,10 @@ public class QDistributionReceiver extends EntityPathBase<DistributionReceiver> 
     //inherited
     public final DateTimePath<java.time.LocalDateTime> createdDate = _super.createdDate;
 
-    public final NumberPath<Long> id = createNumber("id", Long.class);
-
     //inherited
     public final DateTimePath<java.time.LocalDateTime> modifiedDate = _super.modifiedDate;
+
+    public final NumberPath<Long> receiverId = createNumber("receiverId", Long.class);
 
     public final EnumPath<ReceiverStatus> status = createEnum("status", ReceiverStatus.class);
 

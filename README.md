@@ -13,6 +13,7 @@
 - H2
 - JPA
 - QueryDSL 4.3.1
+- Redis
 
 ### Intellij Test 결과
 
@@ -58,6 +59,7 @@
     - Random.nextInt을 이용하여 범위( a-zA-Z )안에서 Random하게 추출
     
 - 분배 할당
+    - Redis를 통하여 receiverId를 선점한다.
     - 분배한 금액 정보의 status를 저장하여 할당되지 않은 건을 요청한 사용자에게 할당
     
 - 10분간 받기 유효 / 조회 7일 조회
@@ -92,7 +94,8 @@
     │   │               └── distribution
     │   │                   ├── application
     │   │                   │   ├── request
-    │   │                   │   └── response
+    │   │                   │   ├── response
+    │   │                   │   └── support
     │   │                   ├── domain
     │   │                   ├── exptions
     │   │                   ├── infra
@@ -191,7 +194,7 @@ GET /distribution/{token}
     "totalAmount": 1002,
     "completionAmount": 800,
     "createdDate": "2020-06-27T05:21:23",
-    "recivers": [
+    "receivers": [
       {
         "userId": 2244,
         "amount": 800

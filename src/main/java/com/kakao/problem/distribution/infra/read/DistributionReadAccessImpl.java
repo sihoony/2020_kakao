@@ -3,6 +3,7 @@ package com.kakao.problem.distribution.infra.read;
 
 import com.kakao.problem.distribution.domain.Distribution;
 import com.kakao.problem.distribution.domain.QDistribution;
+import com.kakao.problem.distribution.domain.QDistributionReceiver;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;

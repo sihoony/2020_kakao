@@ -25,10 +25,12 @@ spring:
       naming:
         implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
         physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
-      ddl-auto: create
+      ddl-auto: create-drop
 
   h2:
     console:
       enabled: true
 
-
+logging:
+  level:
+    root: debug

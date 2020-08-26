@@ -1,5 +1,6 @@
 package com.kakao.problem.distribution.domain;
 
+import com.kakao.problem.configuration.spring.EmbeddedRedisConfig;
 import com.kakao.problem.configuration.spring.RootConfiguration;
 import com.kakao.problem.distribution.infra.DistributionRepositoryImpl;
 import com.kakao.problem.distribution.infra.read.DistributionReadAccessImpl;
@@ -8,30 +9,24 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.data.redis.DataRedisTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 
 import java.util.Random;
 import java.util.stream.Collectors;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
 
 import static org.assertj.core.api.BDDAssertions.then;
 
-@DataJpaTest(includeFilters =
-@ComponentScan.Filter(
-    type = FilterType.ASSIGNABLE_TYPE,
-    classes = {
-        RootConfiguration.class,
-        DistributionWriteAccess.class,
-        DistributionRepositoryImpl.class,
-        DistributionReadAccessImpl.class,
-        DomainService.class
-    }
-  )
-)
+@Import(EmbeddedRedisConfig.class)
+@SpringBootTest
+@Profile("local")
 @DisplayName("Distribution Repository Test,")
 class DistributionRepositoryTest {
-
 
   private final String ROOM_ID = "20200626";
   private final String FIXTURE_ROOM_ID = "20203626";
@@ -82,7 +77,7 @@ class DistributionRepositoryTest {
     then(result.getReceivers().size()).isEqualTo(PEOPLE.intValue());
 
     then(result.getReceivers().stream()
-            .map(DistributionReceiver::getId)
+            .map(DistributionReceiver::getReceiverId)
             .collect(Collectors.toList()))
             .doesNotContainNull();
     then(result.getReceivers().stream()
@@ -154,17 +149,9 @@ class DistributionRepositoryTest {
             .isEqualTo(PEOPLE.intValue());
 
     then(result.getReceivers().stream()
-            .map(DistributionReceiver::getUserId)
-            .collect(Collectors.toList()))
-            .doesNotContainNull();
-    then(result.getReceivers().stream()
             .map(DistributionReceiver::getCreatedDate)
             .collect(Collectors.toList()))
             .doesNotContainNull();
-    then(result.getReceivers().stream()
-            .map(DistributionReceiver::getStatus)
-            .collect(Collectors.toList()))
-            .contains(ReceiverStatus.COMPLETE);
     then(result.getReceivers().stream()
             .map(DistributionReceiver::getModifiedDate)
             .collect(Collectors.toList()))

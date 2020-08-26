@@ -40,7 +40,7 @@ public class DistributionController {
 	public RestApiResponse<DistributionFindResponse> distributionFind(@Valid DistributionFindRequest distributionFindRequest,
 																																		RequestHeader requestHeader){
 
-		DistributionFindResponse result = distributionService.distributionFind(distributionFindRequest, requestHeader);
+		DistributionFindResponse result = distributionService.findDistributionHistory(distributionFindRequest, requestHeader);
 		return RestApiResponse.ok(result);
 	}
 

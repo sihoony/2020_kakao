@@ -8,6 +8,7 @@ import com.kakao.problem.distribution.application.request.DistributionFindReques
 import com.kakao.problem.distribution.application.response.DistributionAcquireResponse;
 import com.kakao.problem.distribution.application.response.DistributionCreateResponse;
 import com.kakao.problem.distribution.application.response.DistributionFindResponse;
+import com.kakao.problem.distribution.application.response.DistributionFindResponse.Receiver;
 import com.kakao.problem.distribution.application.support.DistributionConvert;
 import com.kakao.problem.distribution.application.support.DistributionValidator;
 import com.kakao.problem.distribution.domain.Distribution;
@@ -99,6 +100,7 @@ class DistributionServiceTest extends BaseApplicationFixture {
   class AcquireService {
 
     private final List<DistributionReceiver> distributionReceivers = new ArrayList<>();
+    private final Long FIXTURE_RECEIVER_ID = 100L;
     private final List<Long> FIXTURE_RECEIVER_AMOUNT = Arrays.asList(121L, 552L);
 
     private final Long ACQUIRE_FIXTURE_USER_ID = 8294L;
@@ -108,16 +110,17 @@ class DistributionServiceTest extends BaseApplicationFixture {
     @BeforeEach
     void setUp() {
 
-
       acquireRequest = new DistributionAcquireRequest();
       acquireRequest.setToken(TOKEN);
 
-      distributionReceivers.add(new DistributionReceiver(FIXTURE_RECEIVER_AMOUNT.get(0)));
+      DistributionReceiver receiver = new DistributionReceiver(FIXTURE_RECEIVER_AMOUNT.get(0));
+      ReflectionTestUtils.setField(receiver, "receiverId", FIXTURE_RECEIVER_ID);
+      distributionReceivers.add(receiver);
+
       distributionReceivers.add(new DistributionReceiver(FIXTURE_RECEIVER_AMOUNT.get(1)));
+      distribution.setReceivers(distributionReceivers);
 
       ReflectionTestUtils.setField(requestHeader, "xUserId", ACQUIRE_FIXTURE_USER_ID);
-
-      distribution.setReceivers(distributionReceivers);
 
     }
 
@@ -128,6 +131,8 @@ class DistributionServiceTest extends BaseApplicationFixture {
       //given
       given(distributionRepository.findByTokenAndRoomId(isA(String.class), isA(String.class)))
               .willReturn(distribution);
+      given(distributionRepository.preemptiveReceiverId(isA(String.class), isA(String.class)))
+              .willReturn(FIXTURE_RECEIVER_ID);
 
 
       //when
@@ -199,23 +204,6 @@ class DistributionServiceTest extends BaseApplicationFixture {
     }
 
     @Test
-    @DisplayName(" - 완료된 뿌리기는 받기를 실행 할 수 없습니다.")
-    void distribution_complete_test(){
-
-      //given
-      distributionReceivers.forEach(distributionReceiver -> distributionReceiver.setStatus(ReceiverStatus.COMPLETE));
-      given(distributionRepository.findByTokenAndRoomId(isA(String.class), isA(String.class)))
-              .willReturn(distribution);
-
-      //when
-      //then
-      thenThrownBy( () ->
-
-              distributionService.distributionAcquire(acquireRequest, requestHeader)
-      ).isExactlyInstanceOf(DistributionCompleteException.class);
-    }
-
-    @Test
     @DisplayName(" - 뿌린 건은 10분간만 유효합니다.")
     void expire_time_test(){
 
@@ -280,7 +268,7 @@ class DistributionServiceTest extends BaseApplicationFixture {
 
 
       //when
-      DistributionFindResponse response = distributionService.distributionFind(distributionFindRequest, requestHeader);
+      DistributionFindResponse response = distributionService.findDistributionHistory(distributionFindRequest, requestHeader);
 
 
       //then
@@ -295,18 +283,18 @@ class DistributionServiceTest extends BaseApplicationFixture {
               );
 
       then(response.getCreatedDate()).isNotNull();
-      then(response.getRecivers()).isNotNull();
-      then(response.getRecivers().size()).isEqualTo(FIXTURE_RECEIVER_AMOUNT.size());
+      then(response.getReceivers()).isNotNull();
+      then(response.getReceivers().size()).isEqualTo(FIXTURE_RECEIVER_AMOUNT.size());
 
-      then(response.getRecivers()
+      then(response.getReceivers()
               .stream()
-              .map(DistributionFindResponse.Reciver::getAmount)
+              .map(Receiver::getAmount)
               .collect(Collectors.toList())
       ).doesNotContain(FIXTURE_WAIT_AMOUNT);
 
-      then(response.getRecivers()
+      then(response.getReceivers()
               .stream()
-              .map(DistributionFindResponse.Reciver::getUserId)
+              .map(Receiver::getUserId)
               .collect(Collectors.toList())
       ).doesNotContainNull();
 
@@ -326,7 +314,7 @@ class DistributionServiceTest extends BaseApplicationFixture {
       //then
       thenThrownBy( () ->
 
-              distributionService.distributionFind(distributionFindRequest, requestHeader)
+              distributionService.findDistributionHistory(distributionFindRequest, requestHeader)
       ).isExactlyInstanceOf(NotFoundDistributionException.class);
     }
 
@@ -345,7 +333,7 @@ class DistributionServiceTest extends BaseApplicationFixture {
       //then
       thenThrownBy( () ->
 
-              distributionService.distributionFind(distributionFindRequest, requestHeader)
+              distributionService.findDistributionHistory(distributionFindRequest, requestHeader)
       ).isExactlyInstanceOf(NotCreatorException.class);
     }
 
@@ -366,7 +354,7 @@ class DistributionServiceTest extends BaseApplicationFixture {
       //then
       thenThrownBy( () ->
 
-              distributionService.distributionFind(distributionFindRequest, requestHeader)
+              distributionService.findDistributionHistory(distributionFindRequest, requestHeader)
       ).isExactlyInstanceOf(ReadRestrictionException.class);
     }
   }

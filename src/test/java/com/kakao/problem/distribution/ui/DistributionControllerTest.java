@@ -2,6 +2,7 @@ package com.kakao.problem.distribution.ui;
 
 import com.kakao.problem.assets.entrypoints.RequestHeader;
 import com.kakao.problem.assets.exception.ResultCode;
+import com.kakao.problem.configuration.spring.EmbeddedRedisConfig;
 import com.kakao.problem.distribution.application.DistributionService;
 import com.kakao.problem.distribution.application.request.DistributionAcquireRequest;
 import com.kakao.problem.distribution.application.request.DistributionCreateRequest;
@@ -19,6 +20,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -265,7 +268,7 @@ class DistributionControllerTest {
 
       //given
       DistributionFindResponse distributionFindResponse = new DistributionFindResponse(distributionReceivers, AMOUNT, LocalDateTime.now());
-      given(distributionService.distributionFind(isA(DistributionFindRequest.class), any(RequestHeader.class)))
+      given(distributionService.findDistributionHistory(isA(DistributionFindRequest.class), any(RequestHeader.class)))
               .willReturn(distributionFindResponse);
 
 
@@ -288,9 +291,9 @@ class DistributionControllerTest {
                               .stream()
                               .mapToLong(Long::longValue)
                               .sum()))
-              .andExpect(jsonPath("$.data.recivers").isArray())
-              .andExpect(jsonPath("$.data.recivers[0].userId").value(USER_ID + FIXTURE_RECEIVER_AMOUNT.get(0)))
-              .andExpect(jsonPath("$.data.recivers[0].amount").value(FIXTURE_RECEIVER_AMOUNT.get(0)));
+              .andExpect(jsonPath("$.data.receivers").isArray())
+              .andExpect(jsonPath("$.data.receivers[0].userId").value(USER_ID + FIXTURE_RECEIVER_AMOUNT.get(0)))
+              .andExpect(jsonPath("$.data.receivers[0].amount").value(FIXTURE_RECEIVER_AMOUNT.get(0)));
     }
 
     @Test
@@ -316,7 +319,7 @@ class DistributionControllerTest {
     void not_found_distribution_test() throws Exception {
 
       //given
-      given(distributionService.distributionFind(isA(DistributionFindRequest.class), any(RequestHeader.class)))
+      given(distributionService.findDistributionHistory(isA(DistributionFindRequest.class), any(RequestHeader.class)))
               .willThrow(new NotFoundDistributionException());
 
       //when
@@ -338,7 +341,7 @@ class DistributionControllerTest {
     void not_creator_test() throws Exception {
 
       //given
-      given(distributionService.distributionFind(isA(DistributionFindRequest.class), any(RequestHeader.class)))
+      given(distributionService.findDistributionHistory(isA(DistributionFindRequest.class), any(RequestHeader.class)))
               .willThrow(new NotCreatorException());
 
       //when
@@ -360,7 +363,7 @@ class DistributionControllerTest {
     void read_restriction_test() throws Exception {
 
       //given
-      given(distributionService.distributionFind(isA(DistributionFindRequest.class), any(RequestHeader.class)))
+      given(distributionService.findDistributionHistory(isA(DistributionFindRequest.class), any(RequestHeader.class)))
               .willThrow(new ReadRestrictionException());
 
       //when
